@@ -6,6 +6,7 @@ const WeatherCard = () => {
 
   if (loading) return <p>Loading...</p>;
   if (!weather) return <p>No Weather Data Available.</p>;
+  // variable diatas juga merupakan context yang diambil dari component context
 
   return (
     <div>

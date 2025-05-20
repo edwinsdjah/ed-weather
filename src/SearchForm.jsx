@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { useWeather } from './WeatherContext';
+// useWeather merupakan context yang dipanggil dari komponen context
 
 const SearchForm = () => {
   const inputRef = useRef(null);
@@ -9,6 +10,7 @@ const SearchForm = () => {
   }, []);
   const [city, setCity] = useState('');
   const { setWeather, setLoading } = useWeather();
+  // kita hanya tinggal panggil isi dari contextnya saja setelah contextnya digunakan
 
   const handleSearch = async e => {
     e.preventDefault();
