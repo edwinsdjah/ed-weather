@@ -11,6 +11,7 @@ const App = () => {
         <SearchForm></SearchForm>
         <WeatherCard></WeatherCard>
       </div>
+      {/* div diatas dianggap children oleh provider seperti yang sudah di deklare pada file provider */}
     </WeatherProvider>
   );
 };
