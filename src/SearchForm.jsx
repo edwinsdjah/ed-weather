@@ -1,18 +1,44 @@
-import React, { createContext, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
+import { useWeather } from './WeatherContext';
 
-const WeatherContext = createContext();
+const SearchForm = () => {
+  const inputRef = useRef(null);
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+  const [city, setCity] = useState('');
+  const { setWeather, setLoading } = useWeather();
 
-export const WeatherProvider = ({ children }) => {
-  const [weather, setWeather] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const handleSearch = async e => {
+    e.preventDefault();
+    if (!city) return;
+    setLoading(true);
+
+    try {
+      const response = await axios.get(
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=71dfb18a28f2a1b55a88b008f1ddf3e4`
+      );
+      setWeather(response.data);
+    } catch (error) {
+      console.error('Error fetching weather data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <WeatherContext.Provider
-      value={{ weather, setWeather, loading, setLoading }}
-    >
-      {children}
-    </WeatherContext.Provider>
+    <form onSubmit={handleSearch}>
+      <input
+        type='text'
+        placeholder='Enter City'
+        value={city}
+        onChange={e => setCity(e.target.value)}
+        ref={inputRef}
+      />
+      <button type='submit'>Search</button>
+    </form>
   );
 };
 
-export const useWeather = () => React.useContext(WeatherContext);
+export default SearchForm;
